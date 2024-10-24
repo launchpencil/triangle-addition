@@ -1,25 +1,23 @@
-# Streamlitライブラリをインポート
 import streamlit as st
 
-# ページ設定（タブに表示されるタイトル、表示幅）
-st.set_page_config(page_title="タイトル", layout="wide")
+b_input = st.text_input("整数のリストをスペース区切りで入力してください")
 
-# タイトルを設定
-st.title('Streamlitのサンプルアプリ')
-b = []
-
-user_input = st.text_input('1段目を入力してください')
-
-# ボタンを作成し、クリックされたらメッセージを表示
-if st.button('計算する'):
-    if user_input:  # 名前が入力されているかチェック
-        a = list(map(int, input().split()))
-        a
-        for i in range(len(a)-1):
-            b.append(a[i] + a[i+1])
-        a = b
-        b.clear()
-        for i in range(len(a)-1):
-            st.text(a[i])
-    else:
-        st.error('データを入力してください。')  # エラーメッセージを表示
+# リスト入力を処理
+if b_input:
+    try:
+        b = list(map(int, b_input.split()))
+        # 演算処理
+        st.write("計算結果:")
+        for i in range(len(b)-1):
+            c = []
+            result = []
+            for j in range(len(b)-1):
+                sum_value = b[j] + b[j+1]
+                c.append(sum_value)
+                result.append(sum_value)
+            st.write(' '.join(map(str, result)))  # 結果を表示
+            b = c  # 次のループのために b を更新
+            if len(b) == 1:  # 計算が一つの要素に収束したら終了
+                break
+    except ValueError:
+        st.error("無効な入力です。整数リストを正しく入力してください。")
